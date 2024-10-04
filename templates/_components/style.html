@@ -1,0 +1,64 @@
+{% load static %}
+
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description"
+          content="Onlayn kitob do'koni: bestsellerlar, yangi kitoblar va zamonaviy adabiyotlar. Chegirmalar va maxsus aksiyalar bilan xarid qiling.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Ijtimoiy tarmoqlar uchun Open Graph metadata -->
+    <meta property="og:title" content="Sevimli kitoblaringiz onlayn do'koni | Kitoblar do'koni">
+    <meta property="og:type" content="website">
+    <meta property="og:description"
+          content="Ko'plab kitoblar bilan tanishing va chegirmalar bilan xarid qiling. Kategoriyalar bo'yicha kitoblarni o'rganing va sevimli mualliflaringizni toping.">
+    <meta property="og:site_name" content="KitobDo'konim">
+
+    <!-- Twitter Cards metadata -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Kitoblar dunyosini kashf eting | KitobDo'konim">
+    <meta name="twitter:description"
+          content="Bestsellerlardan tortib yangi kitoblargacha. Bizning onlayn kitob do'konimizda chegirmalar va maxsus aksiyalar bilan xarid qiling.">
+    <!-- Rasm URL manzilini o'zingizga mos ravishda kiriting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'bookshop/imgs/theme/favicon.svg' %}">
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="{% static 'bookshop/css/main.css' %}">
+    <style>
+  #toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.toast {
+    border-radius: 8px;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+    animation: slide-in 0.5s ease-out;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+.toast-content {
+    font-size: 16px;
+    color: #db910f;
+}
+
+@keyframes slide-in {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+</style>

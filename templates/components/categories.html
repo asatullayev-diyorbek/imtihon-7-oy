@@ -8,7 +8,7 @@
             <div class="carausel-6-columns" id="carausel-6-columns">
                 {% for category in categories %}
                     <div class="card-1">
-                        <h5><a href="{% url 'book:book_list' %}?category={{ category.slug }}">{{ category }}</a></h5>
+                        <h5><a href="{% url 'book:book_list' %}?category={{ category.slug }}">{{ category }} ({{ category.book_set.all.count }})</a></h5>
                     </div>
                 {% endfor %}
                 

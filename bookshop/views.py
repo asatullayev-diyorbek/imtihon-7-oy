@@ -86,7 +86,7 @@ class BookCreateView(View):
             form.save()
             messages.success(request, "Kitob muvaffaqiyatli qo'shildi!")
             return redirect('book:book_list')
-        return render(request, 'bookshop/book_form.html', {'form': form})
+        return render(request, 'bookshop/book_form.html', {'form': form, 'title': 'QO\'shish'})
 
 
 
@@ -94,7 +94,7 @@ class BookUpdateView(View):
     def get(self, request, slug):
         book = Book.objects.get(slug=slug)
         form = BookForm(instance=book)
-        return render(request, 'bookshop/book_form.html', {'form': form})
+        return render(request, 'bookshop/book_form.html', {'form': form, 'title': 'Yangilash'})
 
     def post(self, request, slug):
         book = Book.objects.get(slug=slug)
@@ -140,7 +140,7 @@ class AboutView(View):
 class ContactView(View):
     def get(self, request):
         context = {
-            'title': 'Bog\'a qo\'shish',
+            'title': 'Bog\'lanish',
             'page_name': 'Contact',
         }
         return render(request, 'bookshop/contact.html', context)

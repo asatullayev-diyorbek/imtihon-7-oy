@@ -98,7 +98,7 @@
                         <div class="categori-dropdown-wrap categori-dropdown-active-large">
                             <ul>
                                 {% for category in categories %}
-                                    <li><a href="{% url 'book:book_list' %}?category={{ category.slug }}"><i class="evara-font-home"></i>{{ category.name }}</a></li>
+                                    <li><a href="{% url 'book:book_list' %}?category={{ category.slug }}">{{ category.name }}</a></li>
                                 {% endfor %}
                             </ul>
                         </div>

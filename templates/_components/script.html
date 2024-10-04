@@ -1,0 +1,85 @@
+{% load static %}
+
+ <!-- Vendor JS-->
+    <script src="{% static 'bookshop/js/vendor/modernizr-3.6.0.min.js' %}"></script>
+    <script src="{% static 'bookshop/js/vendor/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'bookshop/js/vendor/jquery-migrate-3.3.0.min.js' %}"></script>
+    <script src="{% static 'bookshop/js/vendor/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'bookshop/js/plugins/slick.js' %}"></script>
+    <script src="{% static 'bookshop/js/plugins/jquery.syotimer.min.js' %}"></script>
+    <script src="{% static 'bookshop/js/plugins/wow.js' %}"></script>
+    <script src="{% static 'bookshop/js/plugins/jquery-ui.js' %}"></script>
+    <script src="{% static 'bookshop/js/plugins/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'bookshop/js/plugins/magnific-popup.js' %}"></script>
+    <script src="{% static 'bookshop/js/plugins/select2.min.js' %}"></script>
+    <script src="{% static 'bookshop/js/plugins/waypoints.js' %}"></script>
+    <script src="{% static 'bookshop/js/plugins/counterup.js' %}"></script>
+    <script src="{% static 'bookshop/js/plugins/jquery.countdown.min.js' %}"></script>
+    <script src="{% static 'bookshop/js/plugins/images-loaded.js' %}"></script>
+    <script src="{% static 'bookshop/js/plugins/isotope.js' %}"></script>
+    <script src="{% static 'bookshop/js/plugins/scrollup.js' %}"></script>
+    <script src="{% static 'bookshop/js/plugins/jquery.vticker-min.js' %}"></script>
+    <script src="{% static 'bookshop/js/plugins/jquery.theia.sticky.js' %}"></script>
+    <script src="{% static 'bookshop/js/plugins/jquery.elevatezoom.js' %}"></script>
+    <!-- Template  JS -->
+    <script src="{% static 'bookshop/js/main.js' %}"></script>
+    <script src="{% static 'bookshop/js/shop.js' %}"></script>
+    <script src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+    <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+
+<script>
+    function showToast(message, title = "Notification") {
+        var toastId = 'toast-' + Math.random().toString(36).substring(2, 9);
+
+        var toastHTML = `
+        <div id="${toastId}" class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="max-height: 45px; background-color: #e2eaf7">
+            <div class="toast-content">
+                ${title}: ${message}
+            </div>
+        </div>`;
+
+        document.getElementById('toast-container').insertAdjacentHTML('beforeend', toastHTML);
+
+        // Remove toast after a few seconds
+        setTimeout(() => {
+            document.getElementById(toastId).remove();
+        }, 3000);
+    }
+
+
+    function updateCart(event, action, productId) {
+        event.preventDefault();
+
+        var url = '/cart/' + productId + '/' + action + '/';
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    const btn_minus = document.getElementById('btn_minus');
+                    if (action === 'remove' && data.message === "Cartdan o'chirildi") {
+                        btn_minus.disabled = true;
+                    } else if (action === 'remove') {
+                        btn_minus.disabled = false;
+                    }
+
+                    console.log(data.message);
+
+                    showToast(data.message);
+
+                    document.getElementById('cart-count_top').innerText = Object.keys(data.cart).length;
+                    document.getElementById('cart-count_nav').innerText = Object.keys(data.cart).length;
+                }
+                if (data.cart[productId.toString()]) {
+                    document.getElementById('qty_val').innerText = data.cart[productId.toString()];
+                }else{
+                    document.getElementById('qty_val').innerText = 0;
+                }
+            })
+            .catch(error => console.log('Error:', error));
+    }
+</script>
