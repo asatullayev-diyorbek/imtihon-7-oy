@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <section class="section-padding">
+        <div class="container">
+            <div class="row gutters px-xl-5">
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="account-settings">
+                                <div class="user-profile">
+                                    <div class="user-avatar">
+                                        <hr>
+                                        <img id="userImage" src="{{ request.user.get_image }}" alt="User picture">
+                                        <div class="image-icons">
+                                            <div class="image-upload-icon"
+                                                 onclick="document.getElementById('fileInput').click();">
+                                                <i class="fa fa-camera"></i>
+                                            </div>
+                                        </div>
+                                        <form id="imageForm" method="post" enctype="multipart/form-data"
+                                              action="{% url 'user:update_photo' %}">
+                                            {% csrf_token %}
+                                            <input type="file" id="fileInput" name="image" accept=".jpg,.jpeg,.png"
+                                                   style="display: none;"
+                                                   onchange="document.getElementById('imageForm').submit();">
+                                        </form>
+                                    </div>
+                                    <hr>
+                                    <h5 class="user-name">{{ request.user.first_name }} {{ request.user.last_name }}</h5>
+                                    <h6 class="user-email">{{ request.user.username }}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+                    <div class="card h-100 content-right">
+                        <div class="card-body">
+                            <hr>
+                            <div class="row gutters">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <h6 class="mb-2 text-primary">Shaxsiy ma'lumotlar</h6>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="form-group">
+                                        <label for="fullName">Ism Familiya</label>
+                                        <input type="text" class="form-control" id="fullName" disabled
+                                               value="{{ request.user.first_name }} {{ request.user.last_name }}">
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="form-group">
+                                        <label for="phone">Email</label>
+                                        <input type="text" class="form-control" id="phone" disabled
+                                               value="{{ request.user.email }}">
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="form-group">
+                                        <label for="website">Telefon:</label>
+                                        <input type="url" class="form-control" id="website" disabled
+                                               value="{{ request.user.phone }}">
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="form-group">
+                                        <label for="sTate">Manzil</label>
+                                        <input type="text" class="form-control" id="sTate" disabled
+                                               value="{{ request.user.address }}">
+                                    </div>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                            <a href="{% url 'user:password_change' %}" class="btn form-control mt-3" style="border-radius: 10px;">
+                                                <i class="fa fa-key"></i> Change password
+                                            </a>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                            <a href="{% url 'user:update_info' %}" class="btn form-control mt-3" style="border-radius: 10px;">
+                                                <i class="fa fa-user"></i> Edit personal information
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+    .account-settings .user-profile {
+        margin: 0 0 1rem 0;
+        padding-bottom: 1rem;
+        text-align: center;
+    }
+
+    .account-settings .user-profile .user-avatar {
+        margin: 0 0 1rem 0;
+    }
+
+    .account-settings .user-profile .user-avatar img {
+        width: 150px;
+        height: 150px;
+        -webkit-border-radius: 100px;
+        -moz-border-radius: 100px;
+        border-radius: 100px;
+    }
+
+    .account-settings .user-profile h5.user-name {
+        margin: 0 0 0.5rem 0;
+        font-size: 1.6rem;
+    }
+
+    .account-settings .user-profile h6.user-email {
+        margin: 0;
+        font-size: 1rem;
+        color: #9fa8b9;
+    }
+
+    .account-settings .about {
+        margin: 2rem 0 0 0;
+        text-align: center;
+    }
+
+    .account-settings .about h5 {
+        margin: 0 0 15px 0;
+        color: #007ae1;
+    }
+
+    .form-control {
+        border: 1px solid #cfd1d8;
+        -webkit-border-radius: 2px;
+        -moz-border-radius: 2px;
+        border-radius: 5px;
+        background: #ffffff;
+        color: #2e323c;
+    }
+
+    .card {
+        background: #ffffff;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        border: 0;
+        margin-bottom: 1rem;
+    }
+
+    .change-password-pen:hover {
+        color: #FFD333;
+        transition: all .5s;
+    }
+</style>
+{% endblock %}

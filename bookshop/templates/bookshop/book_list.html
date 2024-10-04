@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <section class="mt-50 mb-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shop-product-fillter">
+                        <a class="btn" href="{% url 'book:book_create' %}"><i class="fi-rs-add"> </i> Kitob qo'shish</a>\
+
+                        <div class="totall-product">
+                            <p> Siz uchun <strong class="text-brand">{{ books.count }} ta</strong> kitob topildi!</p>
+                        </div>
+
+
+                        <div class="sort-by-product-area">
+                            <div class="sort-by-cover mr-10">
+                                <div class="sort-by-product-wrap">
+                                    <div class="sort-by">
+                                        <span><i class="fi-rs-apps"></i>Kategoriya:</span>
+                                    </div>
+                                    <div class="sort-by-dropdown-wrap">
+                                        <span> {{ selected_category }} <i class="fi-rs-angle-small-down"></i></span>
+                                    </div>
+                                </div>
+                                <div class="sort-by-dropdown">
+                                    <ul>
+                                        <li><a class="{% if selected_category == "Barchasi" %}active{% endif %}" href="{% url 'book:book_list' %}">Barchasi</a></li>
+                                        {% for category in categories %}
+                                            <li><a class="{% if selected_category.slug == category.slug %}active{% endif %}" href="{% url 'book:book_list' %}?category={{ category.slug }}">{{ category }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row product-grid-3">
+                        {% for book in books %}
+                            {% include 'bookshop/_components/book_card.html' %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

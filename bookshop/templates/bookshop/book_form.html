@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <section class="mt-50 mb-50">
+        <div class="container mt-5 text-center"
+             style="display: flex; flex-direction: column; justify-content: center; width: 100%; align-items: center">
+            <h1>Yangi Kitob Qo'shish</h1>
+            <form method="post" enctype="multipart/form-data" style="width: 400px">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="title">Kitob nomi</label>
+                    {{ form.title }}
+                    {% if form.title.errors %}
+                        <small class="text-danger">{{ form.title.errors }}</small>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="title">Slug</label>
+                    {{ form.slug }}
+                    {% if form.slug.errors %}
+                        <small class="text-danger">{{ form.slug.errors }}</small>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="author">Muallif</label>
+                    {{ form.author }}
+                    {% if form.author.errors %}
+                        <small class="text-danger">{{ form.author.errors }}</small>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="category">Kategoriya</label>
+                    <select class="form-control" id="category" name="category">
+                        {% for category in form.category.field.queryset %}
+                            <option value="{{ category.pk }}"
+                                    {% if form.category.value == category.pk %}selected{% endif %}>
+                                {{ category.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                    {% if form.category.errors %}
+                        <small class="text-danger">{{ form.category.errors }}</small>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="publication_year">Nashr yili</label>
+                    {{ form.publication_year }}
+                    {% if form.publication_year.errors %}
+                        <small class="text-danger">{{ form.publication_year.errors }}</small>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Tavsif</label>
+                    {{ form.description }}
+                    {% if form.description.errors %}
+                        <small class="text-danger">{{ form.description.errors }}</small>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="price">Narxi (so'm)</label>
+                    {{ form.price }}
+                    {% if form.price.errors %}
+                        <small class="text-danger">{{ form.price.errors }}</small>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="quantity">Kitoblar soni</label>
+                    {{ form.quantity }}
+                    {% if form.quantity.errors %}
+                        <small class="text-danger">{{ form.quantity.errors }}</small>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="image">Rasm yuklash</label>
+                    {{ form.image }}
+                    {% if form.image.errors %}
+                        <small class="text-danger">{{ form.image.errors }}</small>
+                    {% endif %}
+                </div>
+
+                <div class="form-group form-check">
+                    <label class="form-check-label" for="is_discount">Chegirmada</label>
+                    {{ form.is_discount }}
+                </div>
+
+                <div class="form-group">
+                    <label for="discount">Chegirma foizi</label>
+                    {{ form.discount }}
+                    {% if form.discount.errors %}
+                        <small class="text-danger">{{ form.discount.errors }}</small>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="discount">Tavsiya qilinsinmi?</label>
+                    {{ form.is_featured }}
+                    {% if form.is_featured.errors %}
+                        <small class="text-danger">{{ form.is_featured.errors }}</small>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="discount">Batafsil ma'lumot</label>
+                    {{ form.full_description|safe }}
+                    {% if form.full_description.errors %}
+                        <small class="text-danger">{{ form.full_description.errors }}</small>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn-primary">Saqlash</button>
+            </form>
+        </div>
+    </section>
+{% endblock %}

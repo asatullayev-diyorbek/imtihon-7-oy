@@ -1,0 +1,53 @@
+<!-- Modal -->
+<div class="container-fluid">
+{% if messages %}
+    {% for message in messages %}
+        <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        {% if message.tags == 'success' %}
+                            <h5 class="modal-title text-uppercase" id="exampleModalLongTitle" style="color: green">
+                                Muvafaqqiyatli!
+                            </h5>
+                        {% elif message.tags == 'warning' %}
+                            <h5 class="modal-title text-uppercase" id="exampleModalLongTitle" style="color: orange">
+                                Ogohlantirish!
+                            </h5>
+                        {% else %}
+                            <h5 class="modal-title text-uppercase" id="exampleModalLongTitle" style="color: red">
+                                Xatolik!
+                            </h5>
+                        {% endif %}
+                    </div>
+                    <div class="modal-body">
+                        <p style="color: black">{{ message }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close">Close</button>
+                        <a href="{% url 'book:home' %}" type="button" class="btn btn-primary">Bosh sahifa</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}
+</div>
+
+<!-- Script to trigger modal on page load -->
+{% if messages %}
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endif %}
+
+<script>
+$(document).ready(function(){
+    $('#messageModal').modal('show');
+
+    // close tugmasi bosilganda modalni yopish
+    $('#close').on('click', function() {
+        $('#messageModal').modal('hide');
+    });
+});
+</script>
+

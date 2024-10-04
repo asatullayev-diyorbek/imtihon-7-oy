@@ -1,0 +1,44 @@
+<div class="col-lg-3 col-md-4 col-12 col-sm-6">
+    <div class="product-cart-wrap mb-30">
+        <div class="product-img-action-wrap">
+            <div class="product-img product-img-zoom">
+                <a href="{% url 'book:book_detail' book.slug %}">
+                    <img class="img" width="300px" height="500px"
+                         src="{{ book.get_image }}" alt="">
+                </a>
+            </div>
+            <div class="product-action-1">
+                <a aria-label="Yoqdi" class="action-btn hover-up"
+                   href="#{{ book.slug }}"><i class="fi-rs-heart"></i></a>
+            </div>
+            <div class="product-badges">
+                <span class="hot">{{ book.category }}</span>
+            </div>
+        </div>
+        <div class="product-content-wrap">
+            <div class="product-category">
+                <small>{{ book.author }}</small>
+            </div>
+            <h2><a href="{% url 'book:book_detail' book.slug %}">{{ book.title }}</a></h2>
+
+            <div class="progress mt-2" style="width: 70%">
+                <div class="progress-bar" role="progressbar"
+                     style="width:{% widthratio book.get_rating 5 100 %}%">
+                </div>
+            </div>
+            <span>{{ book.get_rating }} / 5</span>
+
+            <div class="product-price">
+                <span>{{ book.current_price }} so'm</span>
+                {% if book.is_discount %}
+                    <span class="old-price">{{ book.price }} so'm</span>
+                {% endif %}
+            </div>
+
+            <div class="product-action-1 show">
+                <a onclick="updateCart(event, 'add', '{{ book.pk }}')" aria-label="Add To Cart" class="action-btn hover-up" href="#"><i
+                        class="fi-rs-shopping-bag-add"></i></a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,69 @@
+{% load static %}
+
+<section class="product-tabs section-padding wow fadeIn animated">
+    <div class="container">
+        <div class="tab-header">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="nav-tab-one" data-bs-toggle="tab" data-bs-target="#tavsiya"
+                            type="button" role="tab" aria-controls="tab-one" aria-selected="true">Tavsiya
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="nav-tab-two" data-bs-toggle="tab" data-bs-target="#mashhur"
+                            type="button" role="tab" aria-controls="tab-two" aria-selected="false">Mashhur
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="nav-tab-three" data-bs-toggle="tab" data-bs-target="#yangi"
+                            type="button" role="tab" aria-controls="tab-three" aria-selected="false">Yangi
+                    </button>
+                </li>
+                {% if request.user.is_authenticated and request.user.is_staff %}
+                    <li class="nav-item" role="presentation">
+                        <a href="{% url 'book:book_create' %}" class="nav-link"
+                           type="button" role="tab" aria-controls="tab-three" aria-selected="false">Kitob qo'shish
+                        </a>
+                    </li>
+                {% endif %} 
+            </ul>
+            <a href="{% url 'book:book_list' %}" class="view-more d-none d-md-flex">Barchasi<i
+                    class="fi-rs-angle-double-small-right"></i></a>
+        </div>
+        <!--Tavsiya-->
+        <div class="tab-content wow fadeIn animated" id="myTabContent">
+            <div class="tab-pane fade show active" id="tavsiya" role="tabpanel" aria-labelledby="tab-one">
+                <div class="row product-grid-4">
+                    {% for book in featured_books %}
+                        {% include 'bookshop/_components/book_card.html' %}
+                    {% endfor %}
+
+                </div>
+                <!--End product-grid-4-->
+            </div>
+            <!--En tab one (Featured)-->
+            <div class="tab-pane fade " id="mashhur" role="tabpanel" aria-labelledby="tab-one">
+                <div class="row product-grid-4">
+                    {% for book in popular_books %}
+                        {% include 'bookshop/_components/book_card.html' %}
+                    {% endfor %}
+
+                </div>
+                <!--End product-grid-4-->
+            </div>
+            <!--En tab two (Popular)-->
+            <div class="tab-pane fade" id="yangi" role="tabpanel" aria-labelledby="tab-one">
+                <div class="row product-grid-4">
+                    {% for book in new_books %}
+                        {% include 'bookshop/_components/book_card.html' %}
+                    {% endfor %}
+
+                </div>
+                <!--End product-grid-4-->
+            </div>
+            <!--En tab three (New added)-->
+        </div>
+
+    </div>
+</section>
+

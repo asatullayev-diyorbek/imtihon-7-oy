@@ -1,0 +1,18 @@
+{% load static %}
+
+<section class="popular-categories section-padding mt-15 mb-4">
+    <div class="container wow fadeIn animated">
+        <h3 class="section-title mb-20"><span>Barcha</span> Kategoriyalar</h3>
+        <div class="carausel-6-columns-cover position-relative">
+            <div class="slider-arrow slider-arrow-2 carausel-6-columns-arrow" id="carausel-6-columns-arrows"></div>
+            <div class="carausel-6-columns" id="carausel-6-columns">
+                {% for category in categories %}
+                    <div class="card-1">
+                        <h5><a href="{% url 'book:book_list' %}?category={{ category.slug }}">{{ category }}</a></h5>
+                    </div>
+                {% endfor %}
+                
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container-fluid mt-3">
+        <div class="row gutters">
+            <div class="col-md-6 offset-md-3 bg-white">
+                <h1 class="mt-5">Tahrirlash</h1>
+                <form method="post" name="changePassword" action="{% url 'user:update_info' %}">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label for="first_name">Ism:</label>
+                                {{ profile_form.first_name }}
+                                {% if profile_form.first_name.errors %}
+                                    <div class="text-danger">
+                                        {% for error in profile_form.first_name.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label for="last_name">Familiya:</label>
+                                {{ profile_form.last_name }}
+                                {% if profile_form.last_name.errors %}
+                                    <div class="text-danger">
+                                        {% for error in profile_form.last_name.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label for="email">Username:</label>
+                                {{ profile_form.username }}
+                                {% if profile_form.username.errors %}
+                                    <div class="text-danger">
+                                        {% for error in profile_form.username.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                {{ profile_form.email }}
+                                {% if profile_form.email.errors %}
+                                    <div class="text-danger">
+                                        {% for error in profile_form.email.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label for="phone">Telefon raqam:</label>
+                                {{ profile_form.phone }}
+                                {% if profile_form.phone.errors %}
+                                    <div class="text-danger">
+                                        {% for error in profile_form.phone.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label for="address">Manzil:</label>
+                                {{ profile_form.address }}
+                                {% if profile_form.address.errors %}
+                                    <div class="text-danger">
+                                        {% for error in profile_form.address.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <a href="{% url 'user:profile' %}" class="btn form-control mt-3"
+                               style="border-radius: 10px; color: black;">
+                                <i class="fa fa-backward"></i> Cancel
+                            </a>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <button type="submit" class="btn form-control btn-primary mt-3"
+                                    style="border-radius: 10px;">
+                                Saqlash
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

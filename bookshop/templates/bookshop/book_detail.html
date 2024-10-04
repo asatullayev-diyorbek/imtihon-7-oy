@@ -1,0 +1,252 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+    <section class="mt-50 mb-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 mb-30 d-flex justify-content-between">
+                    <a href="{% url 'book:book_list' %}" class="btn btn-dark">Qaytish</a>
+                    {% if request.user.is_authenticated and request.user.is_staff %}
+                        <a href="{% url 'book:book_update' book.slug %}" class="btn">Yangilash</a>
+                        <a href="{% url 'book:book_delete' book.slug %}" class="btn" style="color: red">O'chirish</a>
+                    {% endif %}
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="product-detail accordion-detail">
+                        <div class="row mb-50">
+                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                <div class="detail-gallery">
+                                    <!-- MAIN SLIDES -->
+                                    <div class="product-img">
+                                        <figure class="border-radius-10">
+                                            <img src="{{ book.get_image }}" alt="product image" width="100%">
+                                        </figure>
+                                    </div>
+                                </div>
+                                <!-- End Gallery -->
+                            </div>
+                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                <div class="detail-info">
+                                    <h2 class="title-detail">{{ book.title }}</h2>
+                                    <div class="product-detail-rating">
+                                        <div class="pro-details-brand">
+                                            <span> Muallif: <a>{{ book.author }}</a></span>
+                                        </div>
+                                        <div class="product-rate-cover text-end">
+                                            <div class="product-rate d-inline-block">
+                                                <div class="product-rating" style="width:{% widthratio book.get_rating 5 100 %}%">
+                                                </div>
+                                            </div>
+                                            <span class="font-small ml-5 text-muted"> {{ book.get_rating }} / 5</span>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix product-price-cover">
+                                        <div class="product-price primary-color float-left">
+                                            <ins><span class="text-brand">{{ book.current_price }}</span></ins> <small> so'm</small>
+                                            {% if book.is_discount %}
+                                                <ins><span class="old-price font-md ml-15">{{ book.price }}</span></ins> <small> so'm</small>
+                                                <span class="save-price  font-md color3 ml-15">{{ book.discount }}% chegirma</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="short-desc mb-30">
+                                        <p>
+                                            {{ book.description|linebreaks }}
+                                        </p>
+                                    </div>
+                                    <div class="product_sort_info font-xs mb-30">
+                                        <ul>
+                                            <li class="mb-10"><i class="fi-rs-crown mr-5"></i>
+                                                <b>Yili: </b>{{ book.publication_year }} - yil
+                                            </li>
+                                            <li class="mb-10"><i class="fi-rs-refresh mr-5"></i>
+                                                <b>Soni: </b>{{ book.quantity }} ta mavjud
+                                            </li>
+                                            <li><i class="fi-rs-grid mr-5"></i>
+                                                <b>Kategoriyasi: </b>{{ book.category.name }}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="detail-extralink">
+                                        <div class="detail-qty border radius">
+                                            <a id="btn_minus" href="#" class="qty-down" onclick="updateCart(event, 'remove', '{{ book.pk }}')">
+                                                <i class="fi-rs-angle-small-down"></i>
+                                            </a>
+                                            <span id="qty_val" class="qty-val">{{ book_cart_quantity }}</span>
+                                            <a href="#" class="qty-up" onclick="updateCart(event, 'add', '{{ book.pk }}')">
+                                                <i class="fi-rs-angle-small-up"></i>
+                                            </a>
+                                        </div>
+                                        <div class="product-extra-link2">
+                                            <button type="submit" class="button button-add-to-cart">Buy now!</button>
+                                            <a aria-label="Add To Wishlist" class="action-btn hover-up"
+                                               href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Detail Info -->
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-10 m-auto entry-main-content">
+                                <h2 class="section-title style-1 mb-30">Description</h2>
+                                <div class="description mb-50">
+                                    {{ book.full_description|safe }}
+                                </div>
+                                <h3 class="section-title style-1 mb-30 mt-30">Reviews ({{ book.comment_set.all.count }})</h3>
+                                <!--Comments-->
+                                <div class="comments-area style-2">
+                                    <div class="row">
+                                        <div class="col-lg-7">
+                                            <h4 class="mb-30">Foydalanuchilarning savol va izohlari</h4>
+                                            <div class="comment-list">
+                                                {% for comment in book.comment_set.all %}
+                                                    <div class="single-comment justify-content-between d-flex">
+                                                        <div class="user justify-content-between d-flex">
+                                                            <div class="text-center" style="width: 120px">
+                                                                <img src="{{ comment.user.get_image }}" alt="" width="80px" height="80px" style="border-radius: 50%">
+                                                            </div>
+                                                            <div class="desc">
+                                                                <h6><a href="#">{{ comment.user.get_full_name|truncatechars:30 }}</a></h6>
+
+                                                                <div class="product-rate-cover text-start">
+                                                                    <div class="product-rate d-inline-block">
+                                                                        <div class="product-rating"
+                                                                             style="width:{% widthratio comment.rating 5 100 %}%">
+                                                                        </div>
+                                                                    </div>
+                                                                    <span class="font-small ml-5 text-muted"> {{ comment.rating }} / 5</span>
+                                                                </div>
+                                                                <p class="text-start">{{ comment.content }}</p>
+                                                                <div class="d-flex justify-content-between">
+                                                                    <div class="d-flex align-items-center">
+                                                                        <p class="font-xs mr-30 text-center">
+                                                                            {{ comment.created_at|time:"H:i" }} {{ comment.created_at|date:"M d Y" }}
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <div style="width: 600px">
+                                                <h4 class="mb-15">Izoh qoldiring</h4>
+                                                <div class="row">
+                                                    <div class="col-lg-8 col-md-12">
+                                                        {% if request.user.is_authenticated %}
+                                                            <form method="post" action="{% url 'book:comment' book.slug %}">
+                                                                {% csrf_token %}
+                                                                <div class="form-group">
+                                                                    <label for="name">Your Name:</label>
+                                                                    <input disabled type="text" class="form-control"
+                                                                           id="name"
+                                                                           value="{{ request.user.get_full_name }}">
+                                                                </div>
+                                                                <div class="d-flex my-3">
+                                                                    <p class="mb-0 mr-2">Your Rating:</p>
+                                                                    <div class="text-warning rating-stars">
+                                                                        <i class="fa fa-star" data-value="1"></i>
+                                                                        <i class="far fa-star" data-value="2"></i>
+                                                                        <i class="far fa-star" data-value="3"></i>
+                                                                        <i class="far fa-star" data-value="4"></i>
+                                                                        <i class="far fa-star" data-value="5"></i>
+                                                                    </div>
+                                                                    {{ comment_form.rating }}
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label for="message">Your Review:</label>
+                                                                    {{ comment_form.content }}
+                                                                </div>
+
+                                                                 <div class="form-group">
+                                                                     <button type="submit"
+                                                                             class="button button-contactForm">Submit
+                                                                         Review
+                                                                     </button>
+                                                                 </div>
+                                                            </form>
+                                                        {% else %}
+                                                            <p class="text-center">Izoh qoldirish uchun tizimga login
+                                                                qilishingiz kerak.</p>
+                                                            <a class="btn btn-primary btn-block px-4"
+                                                               href="{% url 'user:login' %}?next={{ request.path }}">Login</a>
+                                                        {% endif %}
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <style>
+        .rating-stars i {
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+
+        .rating-stars i.filled {
+            color: gold;
+        }
+
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const stars = document.querySelectorAll('.rating-stars i');
+            const ratingInput = document.getElementById('rating');
+
+            stars.forEach(star => {
+                // Yulduzchaga bosish
+                star.addEventListener('click', function () {
+                    const ratingValue = this.getAttribute('data-value');
+                    ratingInput.value = ratingValue;
+                    updateStars(ratingValue);
+                });
+
+                // Hover qilganda yulduzchalarni yangilash
+                star.addEventListener('mouseover', function () {
+                    const hoverValue = this.getAttribute('data-value');
+                    updateStars(hoverValue);
+                });
+
+                // Hoverdan keyin avvalgi bahoga qaytish
+                star.addEventListener('mouseout', function () {
+                    updateStars(ratingInput.value);
+                });
+            });
+
+            // Yulduzchalarni yangilash
+            function updateStars(value) {
+                stars.forEach(star => {
+                    if (star.getAttribute('data-value') <= value) {
+                        star.classList.add('fa');
+                        star.classList.remove('far');
+                    } else {
+                        star.classList.remove('fa');
+                        star.classList.add('far');
+                    }
+                });
+            }
+        });
+
+    </script>
+{% endblock %}

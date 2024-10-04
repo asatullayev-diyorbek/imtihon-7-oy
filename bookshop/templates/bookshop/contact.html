@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <section class="hero-2 bg-green">
+        <div class="hero-content">
+            <div class="container">
+                <div class="text-center">
+                    <h4 class="text-brand mb-20">Biz bilan bog'laning</h4>
+                    <h1 class="mb-20 wow fadeIn animated font-xxl fw-900">
+                        Kitoblar Haqida <br>Suhbatlashamiz, <span class="text-style-1">Marhamat!</span>
+                    </h1>
+                    <p class="w-50 m-auto mb-50 wow fadeIn animated">Biz bilan bog'lanib, kitoblar, nashrlar va do'konimizdagi maxsus takliflar haqida batafsil ma'lumot olishingiz mumkin.</p>
+                    <p class="wow fadeIn animated">
+                        <a class="btn btn-brand btn-lg font-weight-bold text-white border-radius-5 btn-shadow-brand hover-up" href="{% url 'book:about' %}">Biz haqimizda</a>
+                        <a class="btn btn-outline btn-lg btn-brand-outline font-weight-bold text-brand bg-white text-hover-white ml-15 border-radius-5 btn-shadow-brand hover-up">Yordam markazi</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="pt-50 pb-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-8 col-lg-10 m-auto">
+                    <div class="contact-from-area padding-20-row-col wow FadeInUp">
+                        <h3 class="mb-10 text-center">Bizga yozing</h3>
+                        <p class="text-muted mb-30 text-center font-sm">Savollaringiz bo'lsa, albatta yozing.</p>
+                        <form class="contact-form-style text-center" id="contact-form" action="#" method="post">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="input-style mb-20">
+                                        <input name="name" placeholder="Ismingiz" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="input-style mb-20">
+                                        <input name="email" placeholder="Emailingiz" type="email">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="input-style mb-20">
+                                        <input name="telephone" placeholder="Telefon raqamingiz" type="tel">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="input-style mb-20">
+                                        <input name="subject" placeholder="Mavzu" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="textarea-style mb-30">
+                                        <textarea name="message" placeholder="Xabaringizni yozing"></textarea>
+                                    </div>
+                                    <button class="submit submit-auto-width" type="button">Xabarni yuborish</button>
+                                </div>
+                            </div>
+                        </form>
+                        <p class="form-messege"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

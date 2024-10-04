@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="user-area pt-100 pb-70">
+        <div class="container-fluid">
+            <div class="user-width mx-auto" style="max-width: 600px;">
+                <div class="user-form shadow p-4 rounded bg-white">
+                    <div class="contact-form">
+                        <h2 class="text-center mb-4">Register page</h2>
+
+                        <!-- Non-field errors -->
+                        {% for error in form.non_field_errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+
+                        <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            {{ form.username }}
+                            {% if form.username.errors %}
+                                {% for error in form.username.errors %}
+                                    <div class="text-danger">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                                {% for error in form.email.errors %}
+                                    <div class="text-danger">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password1" class="form-label">Password</label>
+                            {{ form.password1 }}
+                            {% if form.password1.errors %}
+                                {% for error in form.password1.errors %}
+                                    <div class="text-danger">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password2" class="form-label">Confirm Password</label>
+                            {{ form.password2 }}
+                            {% if form.password2.errors %}
+                                {% for error in form.password2.errors %}
+                                    <div class="text-danger">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn">
+                                Register Now
+                            </button>
+                            <a href="{% url 'user:login' %}" class="text-primary float-end">Login</a>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
