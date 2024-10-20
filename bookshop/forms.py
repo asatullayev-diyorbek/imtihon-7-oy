@@ -70,12 +70,12 @@ class CommentForm(forms.Form):
         required=True,
         label="Your Review",
         widget=forms.Textarea(attrs={
-            'class': 'form-control',
+            'class': 'form-control w-100',
             'id': 'content',
-            'rows': 5,
+            'rows': 9,
             'cols': 30,
             'name': 'content',
-            'placeholder': 'Typing here...'
+            'placeholder': 'Izohingiz...'
         })
     )
 

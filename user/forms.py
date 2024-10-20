@@ -6,13 +6,30 @@ from django.forms.utils import ErrorList
 
 
 class RegisterForm(forms.ModelForm):
+    first_name = forms.CharField(
+        label='First name', max_length=30, required=True,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'First name',
+                'class': 'form-control'
+            }
+        )
+    )
+    last_name = forms.CharField(
+        label='Last name', max_length=30, required=True,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Last name',
+                'class': 'form-control'
+            }
+        )
+    )
     username = forms.CharField(
         label='Username', max_length=30, required=True,
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Username',
-                'class': 'form-control',
-                'id': 'username'
+                'class': 'form-control'
             }
         )
     )
@@ -21,8 +38,7 @@ class RegisterForm(forms.ModelForm):
         widget=forms.EmailInput(
             attrs={
                 'placeholder': 'Emial',
-                'class': 'form-control',
-                'id': 'email'
+                'class': 'form-control'
             }
         )
     )
@@ -31,8 +47,7 @@ class RegisterForm(forms.ModelForm):
         widget=forms.PasswordInput(
             attrs={
                 'placeholder': 'Password',
-                'class': 'form-control',
-                'id': 'password1'
+                'class': 'form-control'
             }
         )
     )
@@ -41,8 +56,7 @@ class RegisterForm(forms.ModelForm):
         widget=forms.PasswordInput(
             attrs={
                 'placeholder': 'Password',
-                'class': 'form-control',
-                'id': 'password1'
+                'class': 'form-control'
             }
         )
     )
@@ -87,7 +101,7 @@ class RegisterForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password1', 'password2', 'phone', 'address', 'image')
+        fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2', 'phone', 'address', 'image')
 
 
 class LoginForm(forms.ModelForm):
@@ -122,6 +136,8 @@ class LoginForm(forms.ModelForm):
         if not User.objects.filter(username=username).exists():
             raise forms.ValidationError('Username does not exist')
         user = User.objects.get(username=username)
+        if not user.is_active:
+            raise forms.ValidationError("Unverified user.   <a href='/user/activate/resend-activation/'>Click here</a>")
         if not user.check_password(password):
             raise forms.ValidationError('Incorrect password')
         self.cleaned_data['user'] = self.get_user()

@@ -1,31 +1,31 @@
 {% load static %}
 
  <!-- Vendor JS-->
-    <script src="{% static 'bookshop/js/vendor/modernizr-3.6.0.min.js' %}"></script>
-    <script src="{% static 'bookshop/js/vendor/jquery-3.6.0.min.js' %}"></script>
-    <script src="{% static 'bookshop/js/vendor/jquery-migrate-3.3.0.min.js' %}"></script>
-    <script src="{% static 'bookshop/js/vendor/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'bookshop/js/plugins/slick.js' %}"></script>
-    <script src="{% static 'bookshop/js/plugins/jquery.syotimer.min.js' %}"></script>
-    <script src="{% static 'bookshop/js/plugins/wow.js' %}"></script>
-    <script src="{% static 'bookshop/js/plugins/jquery-ui.js' %}"></script>
-    <script src="{% static 'bookshop/js/plugins/perfect-scrollbar.js' %}"></script>
-    <script src="{% static 'bookshop/js/plugins/magnific-popup.js' %}"></script>
-    <script src="{% static 'bookshop/js/plugins/select2.min.js' %}"></script>
-    <script src="{% static 'bookshop/js/plugins/waypoints.js' %}"></script>
-    <script src="{% static 'bookshop/js/plugins/counterup.js' %}"></script>
-    <script src="{% static 'bookshop/js/plugins/jquery.countdown.min.js' %}"></script>
-    <script src="{% static 'bookshop/js/plugins/images-loaded.js' %}"></script>
-    <script src="{% static 'bookshop/js/plugins/isotope.js' %}"></script>
-    <script src="{% static 'bookshop/js/plugins/scrollup.js' %}"></script>
-    <script src="{% static 'bookshop/js/plugins/jquery.vticker-min.js' %}"></script>
-    <script src="{% static 'bookshop/js/plugins/jquery.theia.sticky.js' %}"></script>
-    <script src="{% static 'bookshop/js/plugins/jquery.elevatezoom.js' %}"></script>
-    <!-- Template  JS -->
-    <script src="{% static 'bookshop/js/main.js' %}"></script>
-    <script src="{% static 'bookshop/js/shop.js' %}"></script>
-    <script src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
-    <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+<script src="{% static 'bookshop/js/vendor/modernizr-3.6.0.min.js' %}"></script>
+<script src="{% static 'bookshop/js/vendor/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'bookshop/js/vendor/jquery-migrate-3.3.0.min.js' %}"></script>
+<script src="{% static 'bookshop/js/vendor/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'bookshop/js/plugins/slick.js' %}"></script>
+<script src="{% static 'bookshop/js/plugins/jquery.syotimer.min.js' %}"></script>
+<script src="{% static 'bookshop/js/plugins/wow.js' %}"></script>
+<script src="{% static 'bookshop/js/plugins/jquery-ui.js' %}"></script>
+<script src="{% static 'bookshop/js/plugins/perfect-scrollbar.js' %}"></script>
+<script src="{% static 'bookshop/js/plugins/magnific-popup.js' %}"></script>
+<script src="{% static 'bookshop/js/plugins/select2.min.js' %}"></script>
+<script src="{% static 'bookshop/js/plugins/waypoints.js' %}"></script>
+<script src="{% static 'bookshop/js/plugins/counterup.js' %}"></script>
+<script src="{% static 'bookshop/js/plugins/jquery.countdown.min.js' %}"></script>
+<script src="{% static 'bookshop/js/plugins/images-loaded.js' %}"></script>
+<script src="{% static 'bookshop/js/plugins/isotope.js' %}"></script>
+<script src="{% static 'bookshop/js/plugins/scrollup.js' %}"></script>
+<script src="{% static 'bookshop/js/plugins/jquery.vticker-min.js' %}"></script>
+<script src="{% static 'bookshop/js/plugins/jquery.theia.sticky.js' %}"></script>
+<script src="{% static 'bookshop/js/plugins/jquery.elevatezoom.js' %}"></script>
+<!-- Template  JS -->
+<script src="{% static 'bookshop/js/main.js' %}"></script>
+<script src="{% static 'bookshop/js/shop.js' %}"></script>
+<script src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+<script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
 
 <script>
     function showToast(message, title = "Notification") {
@@ -75,11 +75,44 @@
                     document.getElementById('cart-count_nav').innerText = Object.keys(data.cart).length;
                 }
                 if (data.cart[productId.toString()]) {
-                    document.getElementById('qty_val').innerText = data.cart[productId.toString()];
+                    document.getElementById(`qty_val${productId}`).innerText = data.cart[productId.toString()];
                 }else{
-                    document.getElementById('qty_val').innerText = 0;
+                    document.getElementById('qty_val${productId}').innerText = 0;
                 }
             })
             .catch(error => console.log('Error:', error));
     }
+</script>
+
+
+<script>
+    function transliterate(value) {
+        const map = {
+            'А': 'A', 'Б': 'B', 'В': 'V', 'Г': 'G', 'Д': 'D', 'Е': 'E', 'Ё': 'Yo', 'Ж': 'Zh', 'З': 'Z', 'И': 'I',
+            'Й': 'Y', 'К': 'K', 'Л': 'L', 'М': 'M', 'Н': 'N', 'О': 'O', 'П': 'P', 'Р': 'R', 'С': 'S', 'Т': 'T',
+            'У': 'U', 'Ф': 'F', 'Х': 'X', 'Ц': 'Ts', 'Ч': 'Ch', 'Ш': 'Sh', 'Щ': 'Shch', 'Ъ': '', 'Ы': 'Y',
+            'Ь': '', 'Э': 'E', 'Ю': 'Yu', 'Я': 'Ya', 
+            'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'yo', 'ж': 'zh', 'з': 'z', 'и': 'i',
+            'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't',
+            'у': 'u', 'ф': 'f', 'х': 'x', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'shch', 'ъ': '', 'ы': 'y',
+            'ь': '', 'э': 'e', 'ю': 'yu', 'я': 'ya'
+        };
+        return value.split('').map(function(char) {
+            return map[char] || char; 
+        }).join('');
+    }
+
+    function createSlug(value) {
+        return transliterate(value)     
+            .toLowerCase()               
+            .replace(/[^a-z0-9\s-]/g, '') 
+            .replace(/\s+/g, '-')         
+            .replace(/-+/g, '-');         
+    }
+
+    document.getElementById("id_title").addEventListener("input", function() {
+        let title = this.value;
+        let slugField = document.getElementById("id_slug");
+        slugField.value = createSlug(title);  
+    });
 </script>

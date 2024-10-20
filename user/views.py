@@ -1,12 +1,14 @@
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from django.core.mail import send_mail
+from django.contrib.auth.tokens import PasswordResetTokenGenerator, default_token_generator
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import send_mail, EmailMessage
 from django.shortcuts import render, get_object_or_404, redirect
+from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode, urlencode
 from django.views.generic import View, FormView
 from django.contrib import messages
 from .forms import RegisterForm, LoginForm, UpdateProfileForm, PasswordChangeForm, ResetPasswordForm, SetNewPasswordForm
@@ -198,8 +200,30 @@ class Register(View):
         form = RegisterForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.create_user()
-            messages.success(request, "Ro'yxatdan o'tdingiz! Tizimga kirish uchun login qilishni unutmaslik qoldi.")
+            user.is_active = False
+            user.save()
+
+            current_site = get_current_site(request)
+            subject = 'Ro\'yxatdan o\'tishni tasdiqlash'
+            message = render_to_string('user/email_verification.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': default_token_generator.make_token(user),
+            })
+
+            email = EmailMessage(
+                subject,
+                message,
+                'asatullayevblog@gmail.com',
+                [user.email],
+            )
+            email.content_subtype = "html"
+            email.send(fail_silently=True)
+
+            messages.success(request, "Ro'yxatdan o'tdingiz! Tasdiqlash uchun emailingizni tekshiring.")
             return redirect('user:login')
+
         context = {
             'form': form,
             'title': "Ro'yxatdan o'tish",
@@ -207,13 +231,85 @@ class Register(View):
         return render(request, 'user/register.html', context)
 
 
-class Login(View):
+class ActivateAccount(View):
+    def get(self, request, uidb64, token):
+        try:
+            uid = urlsafe_base64_decode(uidb64).decode()
+            user = User.objects.get(pk=uid)
+        except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+            user = None
+
+        if user is not None and default_token_generator.check_token(user, token):
+            user.is_active = True
+            user.save()
+            subject = 'Ro\'yxatdan o\'tishingiz muvaffaqiyatli tasdiqlandi!'
+            message = render_to_string('user/verification_succes.html', {
+                'full_name': user.get_full_name()
+            })
+
+            email = EmailMessage(
+                subject,
+                message,
+                'asatullayevblog@gmail.com',
+                [user.email],
+            )
+            email.content_subtype = "html"
+            email.send(fail_silently=True)
+            messages.success(request, "Sizning hisobingiz muvaffaqiyatli tasdiqlandi!")
+            return redirect('user:login')
+        else:
+            messages.error(request, "Tasdiqlash havolasi yaroqsiz yoki muddati o'tgan.")
+            return redirect('user:register')
+
+
+class ResendActivationEmail(View):
     def get(self, request):
         if request.user.is_authenticated:
             return redirect('book:home')
         context = {
+            'title': "Profilni tasdiqlash"
+        }
+        return render(request, 'user/resend_activate.html', context)
+
+    def post(self, request):
+        email = request.POST.get('email')  # Foydalanuvchi emailini olish
+        try:
+            user = User.objects.get(email=email)
+            if not user.is_active:  # Agar foydalanuvchi hali tasdiqlanmagan bo'lsa
+                current_site = get_current_site(request)
+                subject = 'Ro\'yxatdan o\'tishni tasdiqlash'
+                message = render_to_string('user/email_verification.html', {
+                    'user': user,
+                    'domain': current_site.domain,
+                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                    'token': default_token_generator.make_token(user),
+                })
+
+                email = EmailMessage(
+                    subject,
+                    message,
+                    'asatullayevblog@gmail.com',
+                    [user.email],
+                )
+                email.content_subtype = "html"
+                email.send(fail_silently=True)
+                messages.success(request, "Tasdiqlash uchun emailingizni tekshiring.")
+            else:
+                messages.info(request, "Hisobingiz allaqachon tasdiqlangan.")
+            return redirect('user:login')
+        except User.DoesNotExist:
+            messages.error(request, "Bunday emailga ega foydalanuvchi topilmadi.")
+        return redirect('user:resend_activation_email')
+
+
+class Login(View):
+    def get(self, request):
+        if request.user.is_authenticated:
+            return redirect('book:home')
+
+        context = {
             'form': LoginForm(),
-            'title': 'Kirish',
+            'title': 'Kirish'
         }
         return render(request, 'user/login.html', context)
 
@@ -225,7 +321,7 @@ class Login(View):
             user = form.cleaned_data['user']
             login(request, user)
             messages.success(request, f"Salom {user.username} siz tizimga kirdingiz!")
-            to = request.GET.get('next', 'book:home')
+            to = request.GET.get('next', request.META.get('HTTP_REFERER', 'book:main'))
             return redirect(to)
         else:
             context = {

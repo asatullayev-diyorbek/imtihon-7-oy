@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <section class="section-padding">
+    <div class="user-area pt-100 pb-70">
+        <div class="container">
+            <div class="user-width mx-auto" style="max-width: 400px;">
+                <div class="user-form shadow p-4 rounded bg-white">
+                    <div class="contact-form">
+                        <h2 class="text-center mb-4">Account verification</h2>
+
+                        <form method="post" action="{% url 'user:resend_activation_email' %}">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input id="email" type="email" name="email" required>
+                            </div>
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary mb-2">
+                                    Verified
+                                </button>
+                                <a href="{% url 'user:login' %}" class="btn btn-dark mb-2">Login</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+{% endblock %}

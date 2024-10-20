@@ -18,6 +18,24 @@
                         <form method="post">
                         {% csrf_token %}
                         <div class="mb-3">
+                            <label for="first_name" class="form-label">First name</label>
+                            {{ form.first_name }}
+                            {% if form.first_name.errors %}
+                                {% for error in form.first_name.errors %}
+                                    <div class="text-danger">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label for="last_name" class="form-label">Last name</label>
+                            {{ form.last_name }}
+                            {% if form.last_name.errors %}
+                                {% for error in form.last_name.errors %}
+                                    <div class="text-danger">{{ error }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
                             <label for="username" class="form-label">Username</label>
                             {{ form.username }}
                             {% if form.username.errors %}

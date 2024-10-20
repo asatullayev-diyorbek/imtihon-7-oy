@@ -1,0 +1,6 @@
+<p>Salom {{ user.get_full_name }},</p>
+<p>Evara Book Shop`ga xush kelibsiz!</p>
+<p>Ro'yxatdan o'tishingiz muvaffaqiyatli amalga oshdi. Sizdan, ro'yxatdan o'tishni tasdiqlash uchun quyidagi havolani bosish so'raladi:</p>
+<a href="http://{{ domain }}{% url 'user:activate' uidb64=uid token=token %}">Tasdiqlash havolasi</a>
+<p>Biz bilan bog'langaningiz uchun rahmat! Har qanday savollaringiz bo'lsa, bizga murojaat qiling.</p>
+<p>Eng yaxshi tilaklar bilan,<br>Evara Book Shop jamoasi</p>

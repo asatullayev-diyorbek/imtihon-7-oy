@@ -11,7 +11,6 @@ from .models import Category, Book, Comment
 
 class HomeView(View):
     def get(self, request):
-        categories = Category.objects.all()
         books = Book.objects.all()
         featured_books = Book.objects.filter(is_featured=True)[:8]
         popular = Book.objects.annotate(avg_rating=models.Avg('comment__rating')) \
@@ -21,7 +20,6 @@ class HomeView(View):
         context = {
             'title': 'Bosh sahifa',
             'page_name': 'Home',
-            'categories': categories,
             'books': books,
             'featured_books': featured_books,
             'popular_books': popular,
@@ -33,7 +31,6 @@ class HomeView(View):
 class BookListView(View):
     def get(self, request):
         category_slug = request.GET.get('category', None)
-        categories = Category.objects.all()
         if category_slug:
             selected_category = Category.objects.filter(slug=category_slug).first()
             if not selected_category:
@@ -45,7 +42,6 @@ class BookListView(View):
         context = {
             'title': 'Barcha kitoblar' if selected_category is None else selected_category.name,
             'page_name': 'Book List',
-            'categories': categories,
             'books': books,
             'selected_category': "Barchasi" if selected_category is None else selected_category,
         }
@@ -54,7 +50,6 @@ class BookListView(View):
 
 class BookDetailView(View):
     def get(self, request, slug):
-        categories = Category.objects.all()
         comment_form = CommentForm()
         book = Book.objects.filter(slug=slug).first()
         cart = request.session.get('cart')
@@ -69,7 +64,6 @@ class BookDetailView(View):
             'page_name': 'Book Detail',
             'book': book,
             'comment_form': comment_form,
-            'categories': categories,
             'book_cart_quantity': book_cart_quantity,
         }
         return render(request, 'bookshop/book_detail.html', context)

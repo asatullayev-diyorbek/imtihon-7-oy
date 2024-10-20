@@ -8,7 +8,7 @@
                     <div class="header-info">
                         <ul>
                             <li><i class="fi-rs-smartphone"></i> <a href="#">+998 90 777 0512</a></li>
-                            <li><i class="fi-rs-marker"></i><a href="{% url 'book:contact' %}">Our location</a></li>
+                            <li><i class="fi-rs-marker"></i><a href="{% url 'book:contact' %}">Bizning manzil</a></li>
                         </ul>
                     </div>
                 </div>
@@ -16,10 +16,9 @@
                     <div class="text-center">
                         <div id="news-flash" class="d-inline-block">
                             <ul>
-                                <li>Get great devices up to 50% off <a href="shop-grid-right.html">View details</a></li>
-                                <li>Supper Value Deals - Save more with coupons</li>
-                                <li>Trendy 25silver jewelry, save up 35% off today <a href="shop-grid-right.html">Shop
-                                    now</a></li>
+                                <li>Yangi kitoblar bilan tanishing! <a href="{% url 'book:book_list' %}">Batafsil</a></li>
+                                <li>Maxsus takliflar - chegirmalar bilan xarid qiling!</li>
+                                <li>Eng mashhur asarlar, bugun 30% gacha chegirmalar <a href="{% url 'book:book_list' %}">Xarid qiling</a></li>
                             </ul>
                         </div>
                     </div>
@@ -28,24 +27,20 @@
                     <div class="header-info header-info-right">
                         <ul>
                             <li>
-                                <a class="language-dropdown-active" href="#"> <i class="fi-rs-world"></i> English <i
+                                <a class="language-dropdown-active" href="#"> <i class="fi-rs-world"></i> O'zbekcha <i
                                         class="fi-rs-angle-small-down"></i></a>
                                 <ul class="language-dropdown">
-                                    <li><a href="#"><img src="{% static 'bookshop/imgs/theme/flag-fr.png' %}" alt="">Français</a>
-                                    </li>
-                                    <li><a href="#"><img src="{% static 'bookshop/imgs/theme/flag-dt.png' %}" alt="">Deutsch</a>
-                                    </li>
-                                    <li><a href="#"><img src="{% static 'bookshop/imgs/theme/flag-ru.png' %}" alt="">Pусский</a>
-                                    </li>
+                                    <li><a href="#">English</a></li>
+                                    <li><a href="#">Pусский</a></li>
                                 </ul>
                             </li>
                             {% if request.user.is_authenticated %}
                                 <li><i class="fi-rs-user"></i><a href="{% url 'user:profile' %}">Profilim</a></li>
                                 <li><i class="fi-rs-user-remove"></i><a href="{% url 'user:logout' %}">Chiqish</a></li>
                             {% else %}
-                                <li><i class="fi-rs-user-time"></i><a href="{% url 'user:login' %}">Kirish</a></li>
-                                <li><i class="fi-rs-user-add"></i><a href="{% url 'user:register' %}">Ro'yxatdan o'tish</a></li>
-                            {% endif %} 
+                                <li><i class="fi-rs-user-time"></i><a href="{% url 'user:login' %}">Login</a></li>
+                                <li><i class="fi-rs-user-add"></i><a href="{% url 'user:register' %}">Signin</a></li>
+                            {% endif %}
                         </ul>
                     </div>
                 </div>
@@ -62,12 +57,12 @@
                     <div class="search-style-2">
                         <form action="#">
                             <select class="select-active">
-                                <option>All Categories</option>
+                                <option>Barchasi</option>
                                 {% for category in categories %}
                                     <option>{{ category.name }}</option>
                                 {% endfor %}
                             </select>
-                            <input type="text" placeholder="Search for items...">
+                            <input type="text" placeholder="Mahsulotlarni qidirish...">
                         </form>
                     </div>
                     <div class="header-action-right">
@@ -86,14 +81,14 @@
     </div>
     <div class="header-bottom header-bottom-bg-color sticky-bar">
         <div class="container">
-            <div class="header-wrap header-space-between position-relative  main-nav">
+            <div class="header-wrap header-space-between position-relative main-nav">
                 <div class="logo logo-width-1 d-block d-lg-none">
                     <a href="{% url 'book:home' %}"><img src="{% static 'bookshop/imgs/theme/logo.svg' %}" alt="logo"></a>
                 </div>
                 <div class="header-nav d-none d-lg-flex">
                     <div class="main-categori-wrap d-none d-lg-block">
                         <a class="categori-button-active" href="#">
-                            <span class="fi-rs-apps"></span> Browse Categories
+                            <span class="fi-rs-apps"></span> Kategoriyalarni ko'rish
                         </a>
                         <div class="categori-dropdown-wrap categori-dropdown-active-large">
                             <ul>
@@ -106,26 +101,22 @@
                     <div class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block">
                         <nav>
                             <ul>
-                                <li><a href="{% url 'book:home' %}">Home</a>
-
-                                </li>
-                                <li><a href="{% url 'book:book_list' %}">Book shop</a>
-
-                                </li>
-                                <li>
-                                    <a href="{% url 'book:about' %}">About</a>
-                                </li>
-                                <li>
-                                    <a href="{% url 'book:contact' %}">Contact</a>
-                                </li>
+                                <li><a class="{% if request.path == '/' %}active{% endif %}"
+                                        href="{% url 'book:home' %}">Bosh sahifa</a></li>
+                                <li><a class="{% if 'book/' in request.path %}active{% endif %}"
+                                        href="{% url 'book:book_list' %}">Kitob do'koni</a></li>
+                                <li><a class="{% if 'about/' in request.path %}active{% endif %}"
+                                        href="{% url 'book:about' %}">Biz haqimizda</a></li>
+                                <li><a class="{% if 'contact/' in request.path %}active{% endif %}"
+                                        href="{% url 'book:contact' %}">Aloqa</a></li>
                             </ul>
+
                         </nav>
                     </div>
                 </div>
                 <div class="hotline d-none d-lg-block">
-                    <p><i class="fi-rs-headset"></i><span>Hotline</span> 1900 - 888 </p>
+                    <p><i class="fi-rs-headset"></i><span>Support</span> 24 / 7</p>
                 </div>
-                
                 <div class="header-action-right d-block d-lg-none">
                     <div class="header-action-2">
                         <div class="header-action-icon-2">
